@@ -37,8 +37,8 @@ func (s *Storage) DB() *pebble.DB {
 	return s.db
 }
 
-func (s *Storage) Save(key string, data any) error {
-	return s.db.Set([]byte(key), []byte(fmt.Sprintf("%v", data)), pebble.Sync)
+func (s *Storage) Save(key string, data []byte) error {
+	return s.db.Set([]byte(key), data, pebble.Sync)
 }
 
 func (s *Storage) Load(id string) ([]byte, error) {
