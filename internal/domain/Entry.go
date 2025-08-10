@@ -7,7 +7,7 @@ import (
 
 type Entry struct {
 	ID        string
-	PaymentId string
+	TransactionID string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	ConvertedAt time.Time
