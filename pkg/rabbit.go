@@ -31,7 +31,7 @@ func (r *RabbitMQ) Connect() error {
 	if err != nil {
 		return err
 	}
-	
+
 	r.Conn = conn
 
 	channel, err := conn.Channel()
@@ -49,7 +49,7 @@ func (r *RabbitMQ) Disconnect() error {
 			return err
 		}
 	}
-	
+
 	if r.Conn != nil {
 		if err := r.Conn.Close(); err != nil {
 			return err
@@ -68,4 +68,3 @@ func (r *RabbitMQ) QueueDeclare(name string, durable bool, autoDelete bool, excl
 		args,
 	)
 }
-

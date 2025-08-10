@@ -19,7 +19,7 @@ type HttpServer struct {
 
 func NewHTTPServer(addr string) HTTPServer {
 	return &HttpServer{
-		Mux: http.NewServeMux(),
+		Mux:  http.NewServeMux(),
 		addr: addr,
 	}
 }

@@ -1,8 +1,8 @@
 package pkg
 
 import (
-	"fmt"
 	"crypto/sha256"
+	"fmt"
 )
 
 type CommitSystem interface {
@@ -10,9 +10,9 @@ type CommitSystem interface {
 }
 
 type Commit struct {
-	ID      string
-	Event   string
-	Payload any
+	ID       string
+	Event    string
+	Payload  any
 	CheckSum string
 }
 

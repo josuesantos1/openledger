@@ -5,9 +5,8 @@ import (
 )
 
 type Client struct {
-	ID        string
+	ID         string
 	ExternalID string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
 }
-

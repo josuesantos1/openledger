@@ -2,11 +2,11 @@ package handler
 
 import (
 	"encoding/json"
+	"github.com/josuesantos1/openledger/internal/domain"
+	"github.com/josuesantos1/openledger/pkg"
 	"log"
 	"net/http"
 	"time"
-	"github.com/josuesantos1/openledger/internal/domain"
-	"github.com/josuesantos1/openledger/pkg"
 )
 
 type ClientHandler struct {
@@ -18,7 +18,6 @@ func NewClientHandler(storage *pkg.Storage) *ClientHandler {
 		storage: storage,
 	}
 }
-
 
 func (h *ClientHandler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /v1/clients", h.CreateClient)

@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"github.com/josuesantos1/openledger/internal/domain"
-	"log"
-	"time"
-	"net/http"
 	"encoding/json"
+	"github.com/josuesantos1/openledger/internal/domain"
 	"github.com/josuesantos1/openledger/pkg"
+	"log"
+	"net/http"
+	"time"
 )
 
 type AccountHandler struct {
@@ -80,4 +80,3 @@ func (h *AccountHandler) GetAccount(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Erro ao codificar resposta: %v", err)
 	}
 }
-

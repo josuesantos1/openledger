@@ -1,9 +1,9 @@
 package pkg
 
 import (
-	"log"
 	"fmt"
 	"github.com/cockroachdb/pebble"
+	"log"
 )
 
 type StorageSystem interface {

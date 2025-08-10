@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"log"
 	"github.com/josuesantos1/openledger/pkg"
 	amqp091 "github.com/rabbitmq/amqp091-go"
+	"log"
 )
 
 type ConsumerHandler struct {

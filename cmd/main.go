@@ -1,15 +1,14 @@
-
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 	"os/signal"
-	"context"
 	"syscall"
 
-	"github.com/josuesantos1/openledger/pkg"
 	"github.com/josuesantos1/openledger/internal/handler"
+	"github.com/josuesantos1/openledger/pkg"
 )
 
 func main() {
