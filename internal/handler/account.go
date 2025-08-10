@@ -52,3 +52,32 @@ func (h *AccountHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error encoding response: %v", err)
 	}
 }
+
+func (h *AccountHandler) GetAccount(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing Account ID", http.StatusBadRequest)
+		return
+	}
+
+	data, err := h.storage.Load(id)
+	if err != nil {
+		http.Error(w, "Account not found", http.StatusNotFound)
+		return
+	}
+
+	log.Printf("Account loaded: %s", string(data))
+
+	var Account domain.Account
+	if err := json.Unmarshal(data, &Account); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(Account); err != nil {
+		log.Printf("Erro ao codificar resposta: %v", err)
+	}
+}
+
