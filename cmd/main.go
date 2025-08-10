@@ -8,10 +8,15 @@ import (
 	"syscall"
 
 	"github.com/josuesantos1/openledger/pkg"
+	"github.com/josuesantos1/openledger/internal/handler"
 )
 
 func main() {
-	server := pkg.NewHTTPServer(":8080")
+	server := pkg.NewHTTPServer(":8081")
+	mux := server.Server()
+
+	clientHandler := handler.NewClientHandler()
+	clientHandler.RegisterRoutes(mux)
 
 	go func() {
 		if err := server.Start(); err != nil {
