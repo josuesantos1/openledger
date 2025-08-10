@@ -1,10 +1,12 @@
 package pkg
 
 import (
+	"log"
+	"fmt"
 	"github.com/cockroachdb/pebble"
 )
 
-type Storage interface {
+type StorageSystem interface {
 	Save(commit Commit) error
 	Load(id string) (Commit, error)
 	Start() error
@@ -26,6 +28,8 @@ func (s *Storage) Start() error {
 		log.Fatal(err)
 	}
 
+	s.db = db
+
 	return nil
 }
 
@@ -33,17 +37,17 @@ func (s *Storage) DB() *pebble.DB {
 	return s.db
 }
 
-func (s *Storage) Save(commit Commit) error {
-	return s.db.Set([]byte(commit.ID), commit.Data, pebble.Sync)
+func (s *Storage) Save(key string, data any) error {
+	return s.db.Set([]byte(key), []byte(fmt.Sprintf("%v", data)), pebble.Sync)
 }
 
-func (s *Storage) Load(id string) (Commit, error) {
-	var commit Commit
-	err := s.db.Get([]byte(id), &commit.Data)
+func (s *Storage) Load(id string) ([]byte, error) {
+	value, closer, err := s.db.Get([]byte(id))
 	if err != nil {
-		return Commit{}, fmt.Errorf("commit not found")
+		return nil, fmt.Errorf("data not found")
 	}
-	return commit, nil
+	defer closer.Close()
+	return value, nil
 }
 
 func (s *Storage) Close() error {
