@@ -39,8 +39,8 @@ func main() {
 	}
 	defer rabbit.Disconnect()
 
-	consumerHandler := handler.NewConsumerHandler(storage)
-	if err := consumerHandler.RegisterConsumers(rabbit); err != nil {
+	consumerHandler := handler.NewConsumerHandler(storage, rabbit)
+	if err := consumerHandler.RegisterConsumers(); err != nil {
 		log.Printf("Error while registering consumers: %v", err)
 		return
 	}
