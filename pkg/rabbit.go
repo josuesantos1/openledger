@@ -7,6 +7,7 @@ import (
 type Rabbit interface {
 	Connect() error
 	Disconnect() error
+	QueueDeclare(name string, durable bool, autoDelete bool, exclusive bool, noWait bool, args *amqp.Table) (amqp.Queue, error)
 }
 
 type RabbitMQ struct {
@@ -17,7 +18,7 @@ type RabbitMQ struct {
 	Channel  *amqp.Channel
 }
 
-func NewRabbitMQ(uri string, username string, password string) Rabbit {
+func NewRabbitMQ(uri string, username string, password string) *RabbitMQ {
 	return &RabbitMQ{
 		URI:      uri,
 		Username: username,
@@ -56,3 +57,15 @@ func (r *RabbitMQ) Disconnect() error {
 	}
 	return nil
 }
+
+func (r *RabbitMQ) QueueDeclare(name string, durable bool, autoDelete bool, exclusive bool, noWait bool, args amqp.Table) (amqp.Queue, error) {
+	return r.Channel.QueueDeclare(
+		name,
+		durable,
+		autoDelete,
+		exclusive,
+		noWait,
+		args,
+	)
+}
+
