@@ -1,6 +1,11 @@
 package pkg
 
-type Commit interface {
+import (
+	"fmt"
+	"crypto/sha256"
+)
+
+type CommitSystem interface {
 	Apply() error
 }
 

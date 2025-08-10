@@ -23,7 +23,7 @@ func main() {
 
 	defer storage.Close()
 
-	clientHandler := handler.NewClientHandler()
+	clientHandler := handler.NewClientHandler(storage)
 	clientHandler.RegisterRoutes(mux)
 
 	go func() {
