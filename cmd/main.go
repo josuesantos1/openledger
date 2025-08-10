@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"context"
 	"syscall"
 
 	"github.com/josuesantos1/openledger/pkg"
@@ -12,6 +13,8 @@ import (
 )
 
 func main() {
+	ctx := context.Background()
+
 	server := pkg.NewHTTPServer(":8081")
 	mux := server.Server()
 
@@ -20,8 +23,15 @@ func main() {
 		log.Printf("Error while starting storage: %v", err)
 		return
 	}
-
 	defer storage.Close()
+
+	graph := pkg.NewGraph("neo4j://localhost:7687", "neo4j", "password")
+
+	if err := graph.Connect(); err != nil {
+		log.Printf("Error while starting graph storage: %v", err)
+		return
+	}
+	defer graph.Close(ctx)
 
 	clientHandler := handler.NewClientHandler(storage)
 	clientHandler.RegisterRoutes(mux)
