@@ -37,8 +37,13 @@ func main() {
 		log.Printf("Error while connecting to RabbitMQ: %v", err)
 		return
 	}
-
 	defer rabbit.Disconnect()
+
+	consumerHandler := handler.NewConsumerHandler(storage)
+	if err := consumerHandler.RegisterConsumers(rabbit); err != nil {
+		log.Printf("Error while registering consumers: %v", err)
+		return
+	}
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
