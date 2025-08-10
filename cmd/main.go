@@ -15,6 +15,14 @@ func main() {
 	server := pkg.NewHTTPServer(":8081")
 	mux := server.Server()
 
+	storage := pkg.NewStorage()
+	if err := storage.Start(); err != nil {
+		log.Printf("Error while starting storage: %v", err)
+		return
+	}
+
+	defer storage.Close()
+
 	clientHandler := handler.NewClientHandler()
 	clientHandler.RegisterRoutes(mux)
 
