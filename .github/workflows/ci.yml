@@ -47,8 +47,32 @@ jobs:
     - name: Download dependencies
       run: go mod download
     
-    - name: Run tests
-      run: go test -v ./...
+    - name: Run tests with coverage (pkg)
+      run: |
+        go test -v -coverprofile=coverage-pkg.out ./pkg/...
+        go tool cover -func=coverage-pkg.out | grep total | awk '{print substr($3, 1, length($3)-1)}' > coverage-pkg.txt
+        COVERAGE=$(cat coverage-pkg.txt)
+        echo "pkg/ total coverage: $COVERAGE%"
+        if (( $(echo "$COVERAGE < 90.0" | bc -l) )); then
+          echo "Test coverage in pkg/ $COVERAGE% is below the required 90% minimum."
+          exit 1
+        fi
+      env:
+        RABBITMQ_URL: amqp://guest:guest@localhost:5672/
+        NEO4J_URI: neo4j://localhost:7687
+        NEO4J_USERNAME: neo4j
+        NEO4J_PASSWORD: password
+
+    - name: Run tests with coverage (internal/domain)
+      run: |
+        go test -v -coverprofile=coverage-domain.out ./internal/domain/...
+        go tool cover -func=coverage-domain.out | grep total | awk '{print substr($3, 1, length($3)-1)}' > coverage-domain.txt
+        COVERAGE=$(cat coverage-domain.txt)
+        echo "internal/domain/ total coverage: $COVERAGE%"
+        if (( $(echo "$COVERAGE < 90.0" | bc -l) )); then
+          echo "Test coverage in internal/domain/ $COVERAGE% is below the required 90% minimum."
+          exit 1
+        fi
       env:
         RABBITMQ_URL: amqp://guest:guest@localhost:5672/
         NEO4J_URI: neo4j://localhost:7687
