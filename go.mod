@@ -1,3 +1,5 @@
 module github.com/josuesantos1/openledger
 
 go 1.24.5
+
+require github.com/rabbitmq/amqp091-go v1.10.0 // indirect
