@@ -11,4 +11,5 @@ type Transaction struct {
 	Status    string
 	Description string
 	ExternalID string
+	Split      bool
 }
