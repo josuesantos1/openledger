@@ -1,5 +1,10 @@
 package domain
 
+
+import (
+	"time"
+)
+
 type Entry struct {
 	ID        string
 	CreatedAt time.Time
