@@ -15,9 +15,17 @@ func main() {
 
 	go func() {
 		if err := server.Start(); err != nil {
-			log.Printf("Erro ao iniciar o servidor: %v", err)
+			log.Printf("Error while starting server: %v", err)
 		}
 	}()
+
+	rabbit := pkg.NewRabbitMQ("amqp://guest:guest@localhost:5672/", "guest", "guest")
+	if err := rabbit.Connect(); err != nil {
+		log.Printf("Error while connecting to RabbitMQ: %v", err)
+		return
+	}
+
+	defer rabbit.Disconnect()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
